@@ -1,18 +1,22 @@
 {
     "Fists" : {
         "rarity" : "Common",
-        "power" : "40",
-        "type" : "Metal",
-        "default": "True"
+        "power" : 40,
+        "type" : "Metal"
     },
     "Dagger" : {
         "rarity" : "Rare",
-        "power" : "80",
+        "power" : 80,
         "type" : "Ice"
     },
     "Sword" : {
         "rarity" : "Epic",
-        "power" : "50",
+        "power" : 50,
         "type" : "Fire"
+    },
+    "Fire Wand": {
+        "rarity" : "Legendary",
+        "power" : 120,
+        "effects" : ["Burn", "Slash"]
     }
 }

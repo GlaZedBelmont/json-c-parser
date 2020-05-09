@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include <ctype.h>
+#include <string.h>
 #include <json-c/json.h>
 
 int main(int argc, char **argv) {
 
     FILE *fp;
-    char buffer[1024], thisText[1024];
-    
+    char buffer[1024], thisText[1024], CvdText[1024];
 
 
     struct json_object *parsed_json, *idk, *maybe;
@@ -34,8 +34,8 @@ int main(int argc, char **argv) {
 //  Ok so this loop is a bit complex
 //  the first loop gets the name of the item, and its length
 //  then the second loop gets each field of the values
-//  This probably doesn't work with arrays for now...
-//  not until I add type checks to do different conversions for the type of the object
+
+//  Now this should work with arrays
 
     for (int i = 0; i < aSize; i++) {
         items[i] = json_object_iter_peek_name(&it);
@@ -45,14 +45,31 @@ int main(int argc, char **argv) {
         that = json_object_iter_begin(idk);
         int idkLength = json_object_object_length(idk);
         
-        printf("Name: %s\nLength: %i\nValues:\n", items[i], idkLength);
+        printf("Name: %s\nFields: %i\nValues:\n", items[i], idkLength);
 
         for (int a = 0; a < idkLength; a++) {
             snprintf(thisText, sizeof(thisText), json_object_iter_peek_name(&that));
 
             json_object_object_get_ex(idk, thisText, &maybe);
+
+            
+            if (json_object_is_type(maybe, json_type_array) == 1) {
+                const char *arrayItems[json_object_array_length(maybe)];
+                strcpy(CvdText, "");
+
+                for (int x = 0; x < json_object_array_length(maybe); x++) {
+                    arrayItems[x] = json_object_get_string(json_object_array_get_idx(maybe, x));
+                    strncat(CvdText, "\n    • ", 1024);
+                    strncat(CvdText, arrayItems[x], 1024);
+                }
+                
+            }
+            else {
+                snprintf(CvdText, sizeof(CvdText), json_object_get_string(maybe));
+            }
+
             thisText[0] = toupper(thisText[0]);
-            printf("» %c%s: %s\n", toupper(thisText[0]),  thisText + 1, json_object_get_string(maybe));
+            printf("» %c%s: %s\n", toupper(thisText[0]),  thisText + 1, CvdText);
 
             json_object_iter_next(&that);
         }
