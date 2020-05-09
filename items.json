@@ -1,0 +1,18 @@
+{
+    "Fists" : {
+        "rarity" : "Common",
+        "power" : "40",
+        "type" : "Metal",
+        "default": "True"
+    },
+    "Dagger" : {
+        "rarity" : "Rare",
+        "power" : "80",
+        "type" : "Ice"
+    },
+    "Sword" : {
+        "rarity" : "Epic",
+        "power" : "50",
+        "type" : "Fire"
+    }
+}
